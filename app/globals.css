@@ -3071,3 +3071,19 @@ button {
 /* Gradiente de sección más presente */
 .section-gradient--light { opacity: 0.6; }
 .section-gradient--dark { opacity: 0.7; }
+
+/* ===== Header negro (igual que el fondo oscuro) ===== */
+.header {
+  background: #0a0a0a;
+}
+
+/* ===== Recuadro (píldora) para los kickers, para que no se mezclen ===== */
+.kicker {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(201, 145, 61, 0.5);
+  box-shadow: 0 4px 14px rgba(10, 10, 10, 0.06);
+  backdrop-filter: blur(3px);
+}
