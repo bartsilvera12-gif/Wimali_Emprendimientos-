@@ -38,7 +38,13 @@ export async function getCategories(): Promise<Category[]> {
     .select('*')
     .eq('active', true)
     .order('sort_order', { ascending: true })
-  return (data as Category[]) ?? []
+  // Ocultar categorías sin imagen.
+  return ((data as Category[]) ?? []).filter((c) => !!c.image_url || !!c.image_path)
+}
+
+// Helper: un producto es "mostrable" si tiene al menos una imagen.
+function hasImage(p: ProductWithRelations): boolean {
+  return Array.isArray(p.images) && p.images.length > 0
 }
 
 const PRODUCT_SELECT =
@@ -50,6 +56,29 @@ export async function getProducts(): Promise<ProductWithRelations[]> {
     .from('products')
     .select(PRODUCT_SELECT)
     .eq('active', true)
+    .order('sort_order', { ascending: true })
+  // Ocultar productos sin imagen.
+  return ((data as ProductWithRelations[]) ?? []).filter(hasImage)
+}
+
+export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+  const supabase = await createReadClient()
+  const { data } = await supabase
+    .from('categories')
+    .select('*')
+    .eq('slug', slug)
+    .eq('active', true)
+    .maybeSingle()
+  return (data as Category) ?? null
+}
+
+export async function getProductsByCategory(categoryId: string): Promise<ProductWithRelations[]> {
+  const supabase = await createReadClient()
+  const { data } = await supabase
+    .from('products')
+    .select(PRODUCT_SELECT)
+    .eq('active', true)
+    .eq('category_id', categoryId)
     .order('sort_order', { ascending: true })
   return (data as ProductWithRelations[]) ?? []
 }

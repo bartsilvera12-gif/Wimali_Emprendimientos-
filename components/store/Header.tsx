@@ -8,8 +8,7 @@ import { waPlain } from '@/lib/whatsapp'
 
 const NAV = [
   { href: '/#top', label: 'Inicio' },
-  { href: '/#productos', label: 'Productos' },
-  { href: '/#categorias', label: 'Categorías' },
+  { href: '/#categorias', label: 'Productos' },
   { href: '/favoritos', label: 'Favoritos' },
   { href: '/#ofertas', label: 'Ofertas' },
   { href: '/#nosotros', label: 'Nosotros' },

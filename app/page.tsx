@@ -1,9 +1,19 @@
 import Link from 'next/link'
-import { Search } from 'lucide-react'
+import {
+  Search,
+  Package,
+  MessageCircle,
+  ShoppingCart,
+  ShieldCheck,
+  Instagram,
+  Facebook,
+  type LucideIcon,
+} from 'lucide-react'
 import { StoreShell } from '@/components/store/StoreShell'
 import { ProductCard } from '@/components/store/ProductCard'
 import { ProductImage } from '@/components/store/ProductImage'
 import { WaIcon } from '@/components/store/WaIcon'
+import { SectionGradient } from '@/components/store/SectionGradient'
 import {
   getBusiness,
   getSections,
@@ -15,6 +25,13 @@ import {
 import { waPlain } from '@/lib/whatsapp'
 
 export const dynamic = 'force-dynamic'
+
+const BENEFIT_ICONS: Record<string, LucideIcon> = {
+  package: Package,
+  'message-circle': MessageCircle,
+  'shopping-cart': ShoppingCart,
+  'shield-check': ShieldCheck,
+}
 
 export default async function HomePage() {
   const [business, sections, categories, products, benefits, socials] = await Promise.all([
@@ -34,6 +51,8 @@ export default async function HomePage() {
   const offers = products.filter(
     (p) => p.is_offer && p.stock > 0 && p.previous_price && p.previous_price > p.price,
   )
+  // En "Seguinos" no mostramos WhatsApp (ya está en el header, carrito y botón flotante).
+  const socialLinks = socials.filter((s) => s.platform.toLowerCase() !== 'whatsapp')
   const mapQuery = business?.map_query || business?.address || 'Paraguay'
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`
 
@@ -61,69 +80,51 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* BUSCADOR */}
+        {/* BUSCADOR (lleva a categorías) */}
         <div className="search-wrap">
           <div className="search-box">
             <div className="search-bar">
               <Search size={22} color="#8a8a8a" />
               <input placeholder="" aria-label="Buscar productos" readOnly />
-              <Link href="#productos" className="search-go">
+              <Link href="#categorias" className="search-go">
                 Buscar
               </Link>
             </div>
           </div>
         </div>
 
-        {/* CATEGORÍAS */}
-        <section id="categorias" className="section section--cats">
+        {/* CATEGORÍAS (entrada principal a los productos) */}
+        <section id="categorias" className="section section--cats reveal">
+          <SectionGradient variant="light" />
           <div className="section-inner">
-            <div className="kicker">{sections['catalog']?.eyebrow ?? 'CATEGORÍAS'}</div>
+            <div className="kicker">CATEGORÍAS</div>
             <h2 className="h2">¿Qué estás buscando?</h2>
-            <div className="cat-grid">
-              {categories.map((c) => (
-                <div className="card-spotlight cat-card" key={c.id}>
-                  <Link href="#productos" className="cat-hit">
-                    <div className="cat-img">
-                      <ProductImage src={c.image_url} name={c.name} tone="dark" />
+            {categories.length > 0 ? (
+              <div className="cat-grid">
+                {categories.map((c) => {
+                  const count = products.filter((p) => p.category?.id === c.id).length
+                  return (
+                    <div className="card-spotlight cat-card reveal" key={c.id}>
+                      <Link href={`/categoria/${c.slug}`} className="cat-hit">
+                        <div className="cat-img">
+                          <ProductImage src={c.image_url} name={c.name} tone="dark" />
+                        </div>
+                        <div className="cat-shade" />
+                        <div className="cat-text">
+                          <div className="cat-name">{c.name}</div>
+                          <div className="cat-count">
+                            {count} {count === 1 ? 'producto' : 'productos'}
+                          </div>
+                        </div>
+                      </Link>
                     </div>
-                    <div className="cat-shade" />
-                    <div className="cat-text">
-                      <div className="cat-name">{c.name}</div>
-                      <div className="cat-count">
-                        {products.filter((p) => p.category?.id === c.id).length} productos
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CATÁLOGO */}
-        <section id="productos" className="section section--catalog">
-          <div className="section-inner">
-            <div className="catalog-head">
-              <div>
-                <div className="kicker">CATÁLOGO</div>
-                <h2 className="h2">Productos destacados</h2>
-              </div>
-              <div className="catalog-tools">
-                <span className="result-label">
-                  {products.length === 1 ? '1 producto' : `${products.length} productos`}
-                </span>
-              </div>
-            </div>
-            {products.length > 0 ? (
-              <div className="prod-grid">
-                {products.map((p) => (
-                  <ProductCard key={p.id} product={p} />
-                ))}
+                  )
+                })}
               </div>
             ) : (
               <div className="catalog-empty">
-                <div className="catalog-empty-title">Todavía no hay productos cargados</div>
-                <p>Cargalos desde el panel de administración.</p>
+                <div className="catalog-empty-title">Todavía no hay categorías con imagen</div>
+                <p>Cargá una imagen a cada categoría desde el panel para mostrarlas.</p>
               </div>
             )}
           </div>
@@ -131,7 +132,8 @@ export default async function HomePage() {
 
         {/* OFERTAS */}
         {offers.length > 0 && (
-          <section id="ofertas" className="section section--offers">
+          <section id="ofertas" className="section section--offers reveal">
+            <SectionGradient variant="dark" />
             <div className="offers-glow" />
             <div className="section-inner">
               <div className="offers-head">
@@ -149,7 +151,7 @@ export default async function HomePage() {
         )}
 
         {/* CTA WhatsApp */}
-        <section className="section section--cta">
+        <section className="section section--cta reveal">
           <div className="cta-banner">
             <div>
               <h2>¿Encontraste lo que buscabas?</h2>
@@ -164,8 +166,9 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* NOSOTROS */}
-        <section id="nosotros" className="section section--about">
+        {/* NOSOTROS (sin números) */}
+        <section id="nosotros" className="section section--about reveal">
+          <SectionGradient variant="light" />
           <div className="section-inner section-inner--narrow">
             <div className="about-head">
               <div className="kicker">{aboutSec?.eyebrow ?? 'NOSOTROS'}</div>
@@ -173,19 +176,25 @@ export default async function HomePage() {
               <p>{aboutSec?.subtitle}</p>
             </div>
             <div className="about-grid">
-              {benefits.map((b, i) => (
-                <div className="card-spotlight about-card" key={b.id}>
-                  <div className="about-num">{String(i + 1).padStart(2, '0')}</div>
-                  <div className="about-title">{b.title}</div>
-                  <p>{b.description}</p>
-                </div>
-              ))}
+              {benefits.map((b) => {
+                const Icon = (b.icon && BENEFIT_ICONS[b.icon]) || Package
+                return (
+                  <div className="card-spotlight about-card reveal" key={b.id}>
+                    <div className="about-num about-num--icon">
+                      <Icon size={19} />
+                    </div>
+                    <div className="about-title">{b.title}</div>
+                    <p>{b.description}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>
 
         {/* UBICACIÓN */}
-        <section id="ubicacion" className="section section--location">
+        <section id="ubicacion" className="section section--location reveal">
+          <SectionGradient variant="light" />
           <div className="section-inner">
             <div className="kicker">UBICACIÓN</div>
             <h2 className="h2">Encontranos</h2>
@@ -223,32 +232,43 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* REDES */}
-        <section id="contacto" className="section section--contact">
-          <div className="section-inner section-inner--narrow">
-            <div className="contact-head">
-              <div className="kicker">REDES</div>
-              <h2 className="h2">Seguinos</h2>
+        {/* REDES (con íconos reales) */}
+        {socialLinks.length > 0 && (
+          <section id="contacto" className="section section--contact reveal">
+            <SectionGradient variant="light" />
+            <div className="section-inner section-inner--narrow">
+              <div className="contact-head">
+                <div className="kicker">REDES</div>
+                <h2 className="h2">Seguinos</h2>
+              </div>
+              <div className="social-grid">
+                {socialLinks.map((s) => {
+                  const p = s.platform.toLowerCase()
+                  const wa = p === 'whatsapp'
+                  return (
+                    <a
+                      key={s.id}
+                      className={`social-card ${wa ? 'social-card--wa' : ''}`}
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className={`social-icon ${wa ? 'social-icon--wa' : 'social-icon--cream'}`}>
+                        {p === 'instagram' && <Instagram size={22} />}
+                        {p === 'facebook' && <Facebook size={22} />}
+                        {wa && <WaIcon size={22} color="#fff" />}
+                      </span>
+                      <span>
+                        <span className="social-name">{s.label ?? s.platform}</span>
+                        <span className="social-desc">{s.platform}</span>
+                      </span>
+                    </a>
+                  )
+                })}
+              </div>
             </div>
-            <div className="social-grid">
-              {socials.map((s) => (
-                <a
-                  key={s.id}
-                  className="social-card"
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <span className="social-icon social-icon--cream" />
-                  <span>
-                    <span className="social-name">{s.label ?? s.platform}</span>
-                    <span className="social-desc">{s.platform}</span>
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* FOOTER */}
         <footer className="footer">
@@ -258,16 +278,60 @@ export default async function HomePage() {
               <img src="/assets/wimali-logo.png" alt="WIMALI Emprendimientos" />
               <p>Todo lo que necesitás, en un solo lugar.</p>
             </div>
+
+            <div>
+              <div className="footer-title">NAVEGACIÓN</div>
+              <div className="footer-links">
+                <Link href="/#top">Inicio</Link>
+                <Link href="/#categorias">Productos</Link>
+                <Link href="/#ofertas">Ofertas</Link>
+                <Link href="/#nosotros">Nosotros</Link>
+              </div>
+            </div>
+
+            <div>
+              <div className="footer-title">AYUDA</div>
+              <div className="footer-links">
+                <a href={wa} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                <Link href="/#ubicacion">Ubicación</Link>
+                <Link href="/#contacto">Contacto</Link>
+                {business?.phone_display && <span>{business.phone_display}</span>}
+              </div>
+            </div>
+
+            {categories.length > 0 && (
+              <div>
+                <div className="footer-title">CATEGORÍAS</div>
+                <div className="footer-links">
+                  {categories.slice(0, 5).map((c) => (
+                    <Link key={c.id} href={`/categoria/${c.slug}`}>
+                      {c.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {socialLinks.length > 0 && (
+              <div>
+                <div className="footer-title">REDES</div>
+                <div className="footer-links">
+                  {socialLinks.map((s) => (
+                    <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer">
+                      {s.label ?? s.platform}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="footer-bottom">
-            <span>© {business?.business_name ?? 'WIMALI EMPRENDIMIENTOS'}</span>
             <span className="footer-credit">
               Desarrollado por{' '}
               <a href="https://neura.com.py" target="_blank" rel="noopener noreferrer">
                 NEURA
               </a>
             </span>
-            <span className="footer-address">{business?.address}</span>
           </div>
         </footer>
       </main>
