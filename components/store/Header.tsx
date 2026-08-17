@@ -17,7 +17,7 @@ const NAV = [
 ]
 
 export function Header({ whatsappNumber }: { whatsappNumber: string }) {
-  const { count, favs, toggleCart } = useStore()
+  const { count, favs, toggleCart, setSearchOpen } = useStore()
 
   return (
     <header className="header">
@@ -35,9 +35,9 @@ export function Header({ whatsappNumber }: { whatsappNumber: string }) {
         </nav>
 
         <div className="header-actions">
-          <a className="icon-btn" href="/#productos" aria-label="Buscar">
+          <button className="icon-btn" onClick={() => setSearchOpen(true)} aria-label="Buscar">
             <Search size={20} />
-          </a>
+          </button>
           <Link className={`icon-btn icon-btn--fav ${favs.length ? 'is-active' : ''}`} href="/favoritos" aria-label="Favoritos">
             <Heart size={19} fill={favs.length ? 'currentColor' : 'none'} />
             {favs.length > 0 && <span className="cart-badge">{favs.length}</span>}

@@ -14,6 +14,7 @@ interface StoreState {
   cart: CartItem[]
   favs: string[]
   cartOpen: boolean
+  searchOpen: boolean
   count: number
   total: number
   add: (p: { id: string; name: string; price: number; stock: number }, qty?: number) => void
@@ -21,6 +22,7 @@ interface StoreState {
   removeItem: (id: string) => void
   toggleCart: () => void
   setCartOpen: (v: boolean) => void
+  setSearchOpen: (v: boolean) => void
   toggleFav: (id: string) => void
   isFav: (id: string) => boolean
 }
@@ -46,6 +48,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([])
   const [favs, setFavs] = useState<string[]>([])
   const [cartOpen, setCartOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
 
   useEffect(() => {
     setCart(read<CartItem[]>('wimali-cart', []))
@@ -121,6 +124,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     cart,
     favs,
     cartOpen,
+    searchOpen,
     count,
     total,
     add,
@@ -128,6 +132,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     removeItem,
     toggleCart: () => setCartOpen((v) => !v),
     setCartOpen,
+    setSearchOpen,
     toggleFav,
     isFav: (id) => favs.includes(id),
   }

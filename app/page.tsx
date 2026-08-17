@@ -13,7 +13,6 @@ import { StoreShell } from '@/components/store/StoreShell'
 import { ProductCard } from '@/components/store/ProductCard'
 import { ProductImage } from '@/components/store/ProductImage'
 import { WaIcon } from '@/components/store/WaIcon'
-import { SectionGradient } from '@/components/store/SectionGradient'
 import {
   getBusiness,
   getSections,
@@ -80,22 +79,8 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* BUSCADOR (lleva a categorías) */}
-        <div className="search-wrap">
-          <div className="search-box">
-            <div className="search-bar">
-              <Search size={22} color="#8a8a8a" />
-              <input placeholder="" aria-label="Buscar productos" readOnly />
-              <Link href="#categorias" className="search-go">
-                Buscar
-              </Link>
-            </div>
-          </div>
-        </div>
-
         {/* CATEGORÍAS (entrada principal a los productos) */}
         <section id="categorias" className="section section--cats reveal">
-          <SectionGradient variant="light" />
           <div className="section-inner">
             <div className="kicker">CATEGORÍAS</div>
             <h2 className="h2">¿Qué estás buscando?</h2>
@@ -133,7 +118,6 @@ export default async function HomePage() {
         {/* OFERTAS */}
         {offers.length > 0 && (
           <section id="ofertas" className="section section--offers reveal">
-            <SectionGradient variant="dark" />
             <div className="offers-glow" />
             <div className="section-inner">
               <div className="offers-head">
@@ -168,7 +152,6 @@ export default async function HomePage() {
 
         {/* NOSOTROS (sin números) */}
         <section id="nosotros" className="section section--about reveal">
-          <SectionGradient variant="light" />
           <div className="section-inner section-inner--narrow">
             <div className="about-head">
               <div className="kicker">{aboutSec?.eyebrow ?? 'NOSOTROS'}</div>
@@ -194,7 +177,6 @@ export default async function HomePage() {
 
         {/* UBICACIÓN */}
         <section id="ubicacion" className="section section--location reveal">
-          <SectionGradient variant="light" />
           <div className="section-inner">
             <div className="kicker">UBICACIÓN</div>
             <h2 className="h2">Encontranos</h2>
@@ -235,7 +217,6 @@ export default async function HomePage() {
         {/* REDES (con íconos reales) */}
         {socialLinks.length > 0 && (
           <section id="contacto" className="section section--contact reveal">
-            <SectionGradient variant="light" />
             <div className="section-inner section-inner--narrow">
               <div className="contact-head">
                 <div className="kicker">REDES</div>
