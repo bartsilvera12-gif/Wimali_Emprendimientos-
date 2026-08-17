@@ -46,7 +46,7 @@ export default function SearchBar() {
                 scrollToId('productos')
               }
             }}
-            placeholder="¿Qué estás buscando?"
+            placeholder=""
             aria-label="Buscar productos"
           />
           <button

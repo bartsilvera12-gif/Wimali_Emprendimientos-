@@ -9,7 +9,7 @@ import SectionGradient from './SectionGradient.jsx'
 // Foto representativa de cada tarjeta de categoría (producto de esa categoría)
 const CAT_IMAGES = {
   Tecnología: 'assets/productos/consola-retro-portatil.jpg',
-  Accesorios: 'assets/productos/cargador-rapido-usb-c-20w.jpg',
+  Accesorios: 'assets/categorias/accesorios.jpg',
   Audio: 'assets/productos/microfono-inalambrico-dual.jpg',
   Belleza: 'assets/productos/torno-de-unas.jpg',
   Ofertas: 'assets/productos/power-bank-12000mah.jpg',
