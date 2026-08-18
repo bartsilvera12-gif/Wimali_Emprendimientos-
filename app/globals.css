@@ -3705,3 +3705,133 @@ body.menu-open .fab-wa { display: none; }
   background: linear-gradient(140deg, var(--gold-2), var(--gold));
   color: var(--ink);
 }
+
+/* ================================================================
+   TEMA CLARO ROJO — rediseño (fondo blanco, acentos rojos, más luz,
+   sin fondo animado). Sobrescribe el tema oscuro anterior.
+   ================================================================ */
+:root {
+  --gold: #e11d2a;      /* rojo primario (reemplaza al dorado) */
+  --gold-2: #ff4d59;    /* rojo claro para acentos/hover */
+  --cream: #ffffff;     /* superficies claras (antes crema) */
+  --cream-2: #f4f5f7;
+  --ink: #1a1a1a;       /* texto principal */
+  --red-deep: #c1121f;  /* rojo del header */
+}
+
+/* Fondo general claro; sin fondo animado */
+html, body { background: #ffffff; color: #1a1a1a; }
+.page-bg { display: none !important; }
+.app { background: #ffffff; }
+
+/* ---- Header rojo con texto/íconos blancos ---- */
+.header {
+  background: var(--red-deep) !important;
+  border-bottom: 3px solid #9d0f1a;
+  backdrop-filter: none;
+}
+.header-logo img { mix-blend-mode: normal; }
+.header-nav a { color: #fff; }
+.header-nav a:hover { color: #fff; border-bottom-color: #fff; }
+.icon-btn { color: #fff; }
+.icon-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.14); }
+
+/* Kicker: píldora blanca con texto rojo */
+.kicker {
+  color: var(--red-deep);
+  background: #fff;
+  border: 1px solid rgba(225, 29, 42, 0.35);
+}
+
+/* ---- Secciones claras (alternan blanco / gris muy claro) ---- */
+.section--cats,
+.section--catalog,
+.section--cta,
+.section--location,
+.section--contact {
+  background: #ffffff !important;
+}
+.section--offers,
+.section--about,
+.section--favs {
+  background: #f4f5f7 !important;
+}
+
+/* Títulos y textos oscuros sobre fondo claro */
+.h2 { color: #1a1a1a !important; }
+.h2--light { color: #1a1a1a !important; }
+.about-head p,
+.result-label,
+.catalog-empty p,
+.favs-empty p { color: rgba(0, 0, 0, 0.6) !important; }
+.catalog-empty-title,
+.favs-empty-title,
+.contact-head .h2 { color: #1a1a1a !important; }
+
+/* Precios en rojo (como en las referencias) */
+.prod-price,
+.pv-price,
+.prod-card--dark .prod-price { color: var(--gold) !important; }
+
+/* Ficha de producto (vista) sobre claro */
+.pv { background: #ffffff !important; }
+.pv-name { color: #1a1a1a !important; }
+.pv-prev { color: rgba(0, 0, 0, 0.4) !important; }
+.pv-cat { color: rgba(0, 0, 0, 0.55) !important; }
+.pv-desc { color: rgba(0, 0, 0, 0.72) !important; }
+.pv-back { color: #1a1a1a !important; border-color: rgba(0, 0, 0, 0.2) !important; }
+.pv-back:hover { color: var(--gold) !important; border-color: var(--gold) !important; }
+
+/* Favoritos vacío / info-card sobre claro */
+.favs-empty { background: #fff !important; border-color: rgba(225, 29, 42, 0.3) !important; }
+.info-card { border: 1px solid rgba(0, 0, 0, 0.1) !important; background: #fff; }
+
+/* ---- Hero: aclarar el velo para que no se vea tan oscuro ---- */
+.hero-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(10, 10, 10, 0.82) 0%,
+    rgba(10, 10, 10, 0.6) 34%,
+    rgba(10, 10, 10, 0.25) 60%,
+    rgba(10, 10, 10, 0) 82%
+  );
+}
+
+/* ---- Tarjetas Nosotros/Contacto: blancas con acento rojo ---- */
+.card-spotlight.about-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+.card-spotlight.about-card::before {
+  background: linear-gradient(90deg, var(--gold-2), var(--gold));
+}
+.about-num--icon {
+  background: linear-gradient(140deg, var(--gold-2), var(--gold));
+  color: #fff;
+}
+.social-card {
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+.social-icon--cream {
+  background: linear-gradient(140deg, var(--gold-2), var(--gold));
+  color: #fff;
+}
+
+/* ---- Footer oscuro neutro con acentos rojos ---- */
+.footer {
+  background: #141414 !important;
+  backdrop-filter: none !important;
+}
+.footer-priv { color: rgba(255, 255, 255, 0.6); }
+.footer-priv:hover { color: #fff; }
+
+/* ---- Botón flotante de WhatsApp en verde (como las referencias) ---- */
+.fab-wa {
+  background: var(--wa) !important;
+  color: #fff !important;
+  animation: none;
+}
+.fab-wa:hover { color: #fff !important; }

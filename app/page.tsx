@@ -69,7 +69,7 @@ export default async function HomePage() {
             <div className="hero-copy">
               <h1 className="hero-title">
                 <span className="hero-line">{hero?.title?.split(',')[0] ?? 'Todo lo que necesitás,'}</span>
-                <span className="hero-gradient" style={{ color: '#E4BD69' }}>
+                <span className="hero-gradient" style={{ color: '#ff4d59' }}>
                   {hero?.title?.split(',').slice(1).join(',').trim() || 'en un solo lugar.'}
                 </span>
               </h1>
@@ -129,7 +129,7 @@ export default async function HomePage() {
               </div>
               <div className="prod-grid">
                 {offers.map((p) => (
-                  <ProductCard key={p.id} product={p} variant="dark" />
+                  <ProductCard key={p.id} product={p} variant="light" />
                 ))}
               </div>
             </div>
