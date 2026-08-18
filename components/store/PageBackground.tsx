@@ -16,7 +16,9 @@ export function PageBackground() {
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(() => {
         const max = document.documentElement.scrollHeight - window.innerHeight
-        const p = max > 0 ? Math.min(1, window.scrollY / max) : 0
+        // Acotar entre 0 y 1: en overscroll (scrollY negativo) NO mover el fondo,
+        // así el dorado no asoma por encima del header al deslizar de más.
+        const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0
         // Desplazamiento acotado (0 → -22vh) para que siempre cubra la pantalla.
         el.style.transform = `translate3d(0, ${(-p * 22).toFixed(2)}vh, 0)`
       })

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Package, Tags, Percent, AlertTriangle, PackageX, Plus, Sparkles, Store } from 'lucide-react'
+import { Package, Tags, Percent, AlertTriangle, PackageX, Plus, Store } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { formatPYG } from '@/lib/format'
 import { LOW_STOCK_THRESHOLD } from '@/lib/constants'
@@ -9,14 +9,17 @@ export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
-  const { data } = await supabase
-    .from('products')
-    .select('id,name,sku,price,stock,active,is_offer,previous_price,created_at')
-    .order('created_at', { ascending: false })
-  const products = (data as Product[]) ?? []
-  const { count: categoriesCount } = await supabase
-    .from('categories')
-    .select('id', { count: 'exact', head: true })
+  const [{ data }, { data: imgs }, { count: categoriesCount }] = await Promise.all([
+    supabase
+      .from('products')
+      .select('id,name,sku,price,stock,active,is_offer,previous_price,created_at')
+      .order('created_at', { ascending: false }),
+    supabase.from('product_images').select('product_id'),
+    supabase.from('categories').select('id', { count: 'exact', head: true }),
+  ])
+  // Solo los productos que aparecen en la web (los que tienen imagen).
+  const withImage = new Set(((imgs as { product_id: string }[]) ?? []).map((i) => i.product_id))
+  const products = ((data as Product[]) ?? []).filter((p) => withImage.has(p.id))
 
   const activos = products.filter((p) => p.active)
   const ofertas = products.filter((p) => p.is_offer && p.active && p.stock > 0 && p.previous_price && p.previous_price > p.price)
@@ -24,7 +27,7 @@ export default async function AdminDashboard() {
   const bajoStock = products.filter((p) => p.stock > 0 && p.stock <= LOW_STOCK_THRESHOLD)
 
   const cards = [
-    { label: 'Productos totales', value: products.length, icon: Package },
+    { label: 'Productos en la web', value: products.length, icon: Package },
     { label: 'Productos activos', value: activos.length, icon: Package },
     { label: 'Categorías', value: categoriesCount ?? 0, icon: Tags },
     { label: 'Ofertas activas', value: ofertas.length, icon: Percent },
@@ -62,9 +65,6 @@ export default async function AdminDashboard() {
         </Link>
         <Link href="/admin/categorias" className="admin-quick-btn">
           <Tags size={18} /> Nueva categoría
-        </Link>
-        <Link href="/admin/hero" className="admin-quick-btn">
-          <Sparkles size={18} /> Editar Hero
         </Link>
         <Link href="/admin/negocio" className="admin-quick-btn">
           <Store size={18} /> Configuración
