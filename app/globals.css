@@ -447,9 +447,9 @@ button {
 }
 .menu-top {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 14px;
+  justify-content: space-between;
 }
 .menu-top img {
   height: 52px;
@@ -3299,6 +3299,8 @@ body { background: #0a0a0a; }
 html, body { max-width: 100%; overflow-x: clip; }
 /* Fondo raíz negro + sin rebote: en overscroll (arriba/abajo) no asoma el dorado */
 html, body { background: #0a0a0a; overscroll-behavior-y: none; }
+/* Ocultar el botón flotante de WhatsApp cuando el menú móvil está abierto */
+body.menu-open .fab-wa { display: none; }
 
 /* ============================================================
    PANEL ADMIN · CRUD (formularios, tablas, uploaders)

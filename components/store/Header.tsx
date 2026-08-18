@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Search, Heart, ShoppingCart, Menu, X } from 'lucide-react'
 import { useStore } from './StoreProvider'
@@ -20,6 +20,12 @@ const NAV = [
 export function Header({ whatsappNumber }: { whatsappNumber: string }) {
   const { count, favs, toggleCart, setSearchOpen } = useStore()
   const [menuOpen, setMenuOpen] = useState(false)
+
+  // Ocultar el botón flotante de WhatsApp mientras el menú está abierto.
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', menuOpen)
+    return () => document.body.classList.remove('menu-open')
+  }, [menuOpen])
 
   // Desplazamiento suave a cada sección (con offset del header fijo).
   const onNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
