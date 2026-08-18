@@ -446,15 +446,20 @@ button {
   flex-direction: column;
 }
 .menu-top {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 .menu-top img {
   height: 52px;
   mix-blend-mode: screen;
 }
 .menu-close {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 46px;
   height: 46px;
   border-radius: 14px;

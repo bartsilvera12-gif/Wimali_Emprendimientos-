@@ -3,7 +3,7 @@ import { StoreShell } from '@/components/store/StoreShell'
 import { ProductView } from '@/components/store/ProductView'
 import { getBusiness, getProductBySlug } from '@/lib/queries'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params

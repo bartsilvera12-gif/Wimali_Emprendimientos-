@@ -11,7 +11,7 @@ export function ProductImage({
   const label = name || ''
   if (src) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img className="pimg" src={src} alt={label} decoding="async" />
+    return <img className="pimg" src={src} alt={label} loading="lazy" decoding="async" />
   }
   return (
     <div className={`pimg-ph pimg-ph--${tone}`} aria-hidden="true">

@@ -21,6 +21,19 @@ export function Header({ whatsappNumber }: { whatsappNumber: string }) {
   const { count, favs, toggleCart, setSearchOpen } = useStore()
   const [menuOpen, setMenuOpen] = useState(false)
 
+  // Desplazamiento suave a cada sección (con offset del header fijo).
+  const onNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setMenuOpen(false)
+    if (!href.startsWith('/#')) return // enlaces a rutas (ej: /favoritos) navegan normal
+    const id = href.slice(2)
+    const el = typeof document !== 'undefined' ? document.getElementById(id) : null
+    if (!el) return // no está en esta página: dejar que Next navegue
+    e.preventDefault()
+    const y = el.getBoundingClientRect().top + window.scrollY - 76
+    // pequeño respiro para que el overlay se cierre antes de desplazar
+    setTimeout(() => window.scrollTo({ top: y, behavior: 'smooth' }), 20)
+  }
+
   return (
     <>
       <header className="header">
@@ -32,7 +45,7 @@ export function Header({ whatsappNumber }: { whatsappNumber: string }) {
 
           <nav className="header-nav">
             {NAV.map((n) => (
-              <Link key={n.href} href={n.href}>
+              <Link key={n.href} href={n.href} onClick={(e) => onNavClick(e, n.href)}>
                 {n.label}
               </Link>
             ))}
@@ -85,7 +98,7 @@ export function Header({ whatsappNumber }: { whatsappNumber: string }) {
                 key={n.href}
                 href={n.href}
                 className={n.href === '/#ofertas' ? 'menu-link--gold' : ''}
-                onClick={() => setMenuOpen(false)}
+                onClick={(e) => onNavClick(e, n.href)}
               >
                 {n.label}
               </Link>

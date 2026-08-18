@@ -23,7 +23,9 @@ import {
 } from '@/lib/queries'
 import { waPlain } from '@/lib/whatsapp'
 
-export const dynamic = 'force-dynamic'
+// Cacheado (ISR). El admin invalida con revalidatePath al guardar, así los
+// cambios se ven al instante y las visitas normales cargan más rápido.
+export const revalidate = 300
 
 const BENEFIT_ICONS: Record<string, LucideIcon> = {
   package: Package,
