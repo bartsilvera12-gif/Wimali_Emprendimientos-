@@ -446,20 +446,16 @@ button {
   flex-direction: column;
 }
 .menu-top {
-  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 14px;
 }
 .menu-top img {
   height: 52px;
   mix-blend-mode: screen;
 }
 .menu-close {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
   width: 46px;
   height: 46px;
   border-radius: 14px;
@@ -468,6 +464,8 @@ button {
   color: var(--cream);
   font-size: 22px;
   cursor: pointer;
+  display: grid;
+  place-items: center;
 }
 .menu-nav {
   display: flex;
