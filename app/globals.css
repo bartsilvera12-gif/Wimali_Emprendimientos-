@@ -3280,3 +3280,13 @@ body { background: #0a0a0a; }
   position: relative;
   z-index: 2;
 }
+
+/* ===== Header responsive: hamburguesa en móvil ===== */
+.header-burger { display: none; }
+@media (max-width: 1139px) {
+  .header-nav { display: none; }
+  .header .btn-wa--header { display: none; }
+  .header-burger { display: grid; }
+}
+/* Evitar cualquier desborde horizontal en toda la página */
+html, body { max-width: 100%; overflow-x: hidden; }
