@@ -3094,9 +3094,13 @@ button {
 body { background: #0a0a0a; }
 .page-bg {
   position: fixed;
-  inset: 0;
+  top: -22vh;
+  left: 0;
+  right: 0;
+  height: 144vh;
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
 }
 .app { position: relative; z-index: 1; }
 
@@ -3288,5 +3292,5 @@ body { background: #0a0a0a; }
   .header .btn-wa--header { display: none; }
   .header-burger { display: grid; }
 }
-/* Evitar cualquier desborde horizontal en toda la página */
-html, body { max-width: 100%; overflow-x: hidden; }
+/* Evitar desborde horizontal SIN crear un contenedor de scroll (clip != hidden) */
+html, body { max-width: 100%; overflow-x: clip; }
