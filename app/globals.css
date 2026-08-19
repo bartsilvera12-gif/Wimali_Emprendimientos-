@@ -3903,3 +3903,18 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   box-shadow: 0 12px 30px rgba(225, 29, 42, 0.4) !important;
 }
 .fab-wa:hover { color: #fff !important; filter: brightness(1.05); }
+
+/* ===== Logo mas grande (legibilidad de "EMPRENDIMIENTOS") ===== */
+/* Header: un poco mas grande */
+.header-logo img { height: 40px; }
+.header--scrolled .header-logo img { height: 34px; }
+/* Footer: bastante mas grande (hay espacio) */
+.footer-brand { max-width: 380px; }
+.footer-brand img { width: 330px !important; }
+
+/* ===== Footer: columna de marca mas ancha para un logo grande ===== */
+@media (min-width: 900px) {
+  .footer-grid { grid-template-columns: 1.8fr 1fr 1fr 1fr 1fr; }
+}
+.footer-brand { max-width: none; }
+.footer-brand img { width: 300px !important; max-width: 100% !important; }
