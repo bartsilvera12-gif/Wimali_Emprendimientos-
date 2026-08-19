@@ -4196,3 +4196,11 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
 @media (max-width: 767px) {
   .hero-overlay { display: none !important; }
 }
+
+/* ===== Boton "Comprar por WhatsApp" del header en blanco (como el de la CTA) ===== */
+.btn-wa--header {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
+}
+.btn-wa--header:hover { background: #f2f2f2 !important; color: #1a1a1a !important; }
