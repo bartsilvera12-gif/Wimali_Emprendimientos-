@@ -2482,10 +2482,10 @@ button {
   box-shadow: 0 12px 28px rgba(201, 145, 61, 0.34);
 }
 
-/* Banner CTA en tonos de marca (antes gradiente verde) */
+/* Banner CTA en rojo de marca */
 .cta-banner {
-  background: linear-gradient(120deg, #171008, #c9913d 140%);
-  box-shadow: 0 24px 60px rgba(201, 145, 61, 0.24);
+  background: linear-gradient(120deg, #8f0f17, #e11d2a);
+  box-shadow: 0 24px 60px rgba(225, 29, 42, 0.26);
 }
 
 /* Tarjeta social de WhatsApp en dorado */
@@ -3292,7 +3292,7 @@ body { background: #0a0a0a; }
 /* La barra completa (nav + boton WhatsApp) solo aparece con espacio de sobra;
    por debajo se usa la hamburguesa para que nunca se encimen los textos. */
 .header-burger { display: none; }
-@media (max-width: 1359px) {
+@media (max-width: 1439px) {
   .header-nav { display: none; }
   .header .btn-wa--header { display: none; }
   .header-burger { display: grid; }
@@ -3920,8 +3920,10 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
 .footer-brand img { width: 300px !important; max-width: 100% !important; }
 
 /* ===== Logo aun mas grande (header + footer) ===== */
-/* Header un poco mas ancho para acomodar el logo mayor junto al menu */
-.header-inner { max-width: 1360px; }
+/* Header mas ancho para acomodar el logo grande junto al menu completo.
+   El menu completo aparece solo >=1440px (ver breakpoint arriba); por debajo,
+   hamburguesa, para que nunca se encimen los textos con los iconos. */
+.header-inner { max-width: 1440px; }
 .header-logo img { height: 52px; }
 .header--scrolled .header-logo img { height: 42px; }
 /* Footer: columna de marca aun mas ancha y logo mas grande */
