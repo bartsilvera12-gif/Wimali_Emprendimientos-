@@ -3835,3 +3835,12 @@ html, body { background: #ffffff; color: #1a1a1a; }
   animation: none;
 }
 .fab-wa:hover { color: #fff !important; }
+
+/* ===== Hero en blanco liso (sin imagen de fondo) ===== */
+.hero { background: #ffffff; min-height: clamp(340px, 50vh, 520px); }
+.hero-bg,
+.hero-overlay,
+.hero-particles { display: none !important; }
+.hero-title,
+.hero-line { color: #1a1a1a !important; }
+.hero-sub { color: rgba(0, 0, 0, 0.6) !important; }
