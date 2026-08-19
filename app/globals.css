@@ -4363,3 +4363,12 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .hero { height: auto !important; max-height: none !important; }
   .hero-bg { -webkit-mask-image: none !important; mask-image: none !important; object-fit: fill !important; }
 }
+
+/* ===== Texto del hero mas grande (hay lugar en el hero de 680px) ===== */
+.hero-title { font-size: clamp(38px, 5vw, 60px) !important; line-height: 1.04; }
+.hero-sub { font-size: clamp(16px, 1.5vw, 19px) !important; margin-top: 18px; }
+.hero-copy { max-width: 560px; }
+@media (max-width: 767px) {
+  .hero-title { font-size: clamp(32px, 8.5vw, 44px) !important; }
+  .hero-sub { font-size: 15.5px !important; }
+}
