@@ -3292,7 +3292,7 @@ body { background: #0a0a0a; }
 /* La barra completa (nav + boton WhatsApp) solo aparece con espacio de sobra;
    por debajo se usa la hamburguesa para que nunca se encimen los textos. */
 .header-burger { display: none; }
-@media (max-width: 1439px) {
+@media (max-width: 1259px) {
   .header-nav { display: none; }
   .header .btn-wa--header { display: none; }
   .header-burger { display: grid; }
@@ -3999,3 +3999,10 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
 /* Boton "Comprar por WhatsApp" del menu: blanco con texto rojo (contrasta sobre rojo) */
 .menu-wa { background: #ffffff !important; color: #c1121f !important; }
 .menu-wa:hover { color: #c1121f !important; }
+
+/* ===== Menu completo visible en notebooks (>=1180): logo y nav mas compactos ===== */
+.header-logo img { height: 44px; }
+.header--scrolled .header-logo img { height: 38px; }
+.header-nav { gap: clamp(6px, 0.8vw, 16px); margin-left: 4px; }
+.header-nav a { font-size: 13px; }
+.btn-wa--header { padding: 0 14px; font-size: 13px; gap: 7px; }
