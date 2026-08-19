@@ -4317,3 +4317,19 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .hero { height: auto !important; }
   .hero-title { font-size: clamp(30px, 8vw, 40px) !important; }
 }
+
+/* ===== Hero: imagen COMPLETA (sin recorte) mas chica + bordes difuminados ===== */
+.hero { height: clamp(400px, 52vh, 470px) !important; }
+.hero-bg {
+  object-fit: contain !important;      /* completa, no recorta */
+  object-position: right center !important;
+  -webkit-mask-image: radial-gradient(135% 125% at 80% 50%, #000 50%, rgba(0, 0, 0, 0) 100%) !important;
+  mask-image: radial-gradient(135% 125% at 80% 50%, #000 50%, rgba(0, 0, 0, 0) 100%) !important;
+}
+@media (max-width: 767px) {
+  .hero-bg {
+    object-position: center !important;
+    -webkit-mask-image: radial-gradient(150% 130% at 50% 45%, #000 55%, rgba(0,0,0,0) 100%) !important;
+    mask-image: radial-gradient(150% 130% at 50% 45%, #000 55%, rgba(0,0,0,0) 100%) !important;
+  }
+}
