@@ -3931,3 +3931,56 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .footer-grid { grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr; }
 }
 .footer-brand img { width: 340px !important; }
+
+/* ================================================================
+   PANEL ADMIN — tema rojo + blanco (login y panel)
+   ================================================================ */
+
+/* --- Login: pagina clara con tarjeta roja --- */
+.admin-login {
+  background: radial-gradient(900px 500px at 80% -10%, rgba(225, 29, 42, 0.10), transparent 60%), #f4f5f7;
+}
+.admin-login-card {
+  background: linear-gradient(160deg, #c1121f, #9a1812);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 30px 70px rgba(120, 10, 15, 0.35);
+}
+.admin-login-brand img { mix-blend-mode: normal !important; height: 58px; }
+.admin-login-title { color: #ffffff; }
+.admin-login-sub { color: rgba(255, 255, 255, 0.75); }
+.admin-login-form label span { color: rgba(255, 255, 255, 0.9); }
+.admin-login-form input {
+  background: #ffffff;
+  color: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.admin-login-form input:focus { border-color: #e4bd69; box-shadow: 0 0 0 3px rgba(228, 189, 105, 0.35); }
+.admin-login-error { background: rgba(0, 0, 0, 0.22); border-color: rgba(255, 255, 255, 0.3); color: #ffe1e1; }
+.admin-login-btn { background: #ffffff; color: #c1121f; }
+.admin-login-btn:hover:not(:disabled) { box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28); }
+
+/* --- Panel: sidebar rojo, contenido claro --- */
+.admin-shell { background: #f4f5f7; }
+.admin-sidebar {
+  background: linear-gradient(180deg, #c1121f, #9a1812);
+  border-right: none;
+}
+.admin-logo { mix-blend-mode: normal !important; }
+.admin-user { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.2); }
+.admin-user-name { color: #ffffff; }
+.admin-user-role { color: #ffd98a; }
+.admin-nav-link { color: rgba(255, 255, 255, 0.82); }
+.admin-nav-link:hover { background: rgba(255, 255, 255, 0.14); color: #ffffff; }
+.admin-nav-link.is-active { background: #ffffff; color: #c1121f; }
+.admin-sidebar-foot { border-top-color: rgba(255, 255, 255, 0.18); }
+.admin-drawer-close { color: #ffffff; }
+
+/* --- Botones/acentos del panel en rojo (coherencia) --- */
+.admin-btn--gold { background: linear-gradient(135deg, #ff4d59, #e11d2a) !important; color: #ffffff !important; }
+.admin-quick-btn { background: #c1121f; color: #ffffff; }
+.admin-quick-btn:hover { background: #9a1812; color: #ffd98a; }
+.admin-card-icon { background: #c1121f; color: #ffd98a; }
+
+/* Ajuste de ancho del logo en login y sidebar (evita desborde del logo ancho) */
+.admin-login-brand img { height: auto !important; width: 250px; max-width: 100%; }
+.admin-logo { height: auto !important; width: 180px; max-width: 100%; }
