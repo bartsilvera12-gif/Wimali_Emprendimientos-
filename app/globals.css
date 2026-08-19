@@ -3918,3 +3918,14 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
 }
 .footer-brand { max-width: none; }
 .footer-brand img { width: 300px !important; max-width: 100% !important; }
+
+/* ===== Logo aun mas grande (header + footer) ===== */
+/* Header un poco mas ancho para acomodar el logo mayor junto al menu */
+.header-inner { max-width: 1360px; }
+.header-logo img { height: 52px; }
+.header--scrolled .header-logo img { height: 42px; }
+/* Footer: columna de marca aun mas ancha y logo mas grande */
+@media (min-width: 900px) {
+  .footer-grid { grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr; }
+}
+.footer-brand img { width: 340px !important; }
