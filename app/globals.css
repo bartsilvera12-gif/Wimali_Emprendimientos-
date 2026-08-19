@@ -3292,7 +3292,7 @@ body { background: #0a0a0a; }
 /* La barra completa (nav + boton WhatsApp) solo aparece con espacio de sobra;
    por debajo se usa la hamburguesa para que nunca se encimen los textos. */
 .header-burger { display: none; }
-@media (max-width: 1239px) {
+@media (max-width: 1359px) {
   .header-nav { display: none; }
   .header .btn-wa--header { display: none; }
   .header-burger { display: grid; }
@@ -3905,9 +3905,9 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
 .fab-wa:hover { color: #fff !important; filter: brightness(1.05); }
 
 /* ===== Logo mas grande (legibilidad de "EMPRENDIMIENTOS") ===== */
-/* Header: un poco mas grande */
-.header-logo img { height: 40px; }
-.header--scrolled .header-logo img { height: 34px; }
+/* Header: mas grande (el nav pasa a hamburguesa antes para dar espacio) */
+.header-logo img { height: 48px; }
+.header--scrolled .header-logo img { height: 40px; }
 /* Footer: bastante mas grande (hay espacio) */
 .footer-brand { max-width: 380px; }
 .footer-brand img { width: 330px !important; }
