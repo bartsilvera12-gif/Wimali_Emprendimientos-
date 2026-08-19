@@ -4372,3 +4372,43 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .hero-title { font-size: clamp(32px, 8.5vw, 44px) !important; }
   .hero-sub { font-size: 15.5px !important; }
 }
+
+/* ===== Hero MOVIL prolijo: imagen completa arriba + texto debajo ===== */
+@media (max-width: 767px) {
+  .hero {
+    display: flex !important;
+    flex-direction: column !important;   /* imagen arriba, texto debajo */
+    height: auto !important;
+    max-height: none !important;
+    padding: 0 0 10px !important;
+    overflow: visible !important;
+  }
+  .hero-bg {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;              /* ratio natural: sin recorte ni stretch */
+    max-height: none !important;
+    object-fit: contain !important;
+    border-radius: 0 !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  .hero-overlay { display: none !important; }
+  .hero-inner {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 18px 18px 4px !important;
+    display: block !important;
+  }
+  .hero-copy { max-width: 100% !important; }
+}
+
+/* Fix overflow movil: sin escala de entrada + clip */
+@media (max-width: 767px) {
+  .hero { overflow: hidden !important; }
+  .hero-bg { animation: none !important; transform: none !important; }
+}
