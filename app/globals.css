@@ -4412,3 +4412,50 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .hero { overflow: hidden !important; }
   .hero-bg { animation: none !important; transform: none !important; }
 }
+
+/* ===== Hero MOVIL igual que desktop: imagen de fondo + texto encima a la izq ===== */
+@media (max-width: 767px) {
+  .hero {
+    display: block !important;
+    position: relative !important;
+    height: clamp(380px, 62vh, 480px) !important;
+    max-height: none !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+  .hero-bg {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: 68% 42% !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .hero-overlay {
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 1 !important;
+    background: linear-gradient(90deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.88) 32%, rgba(255,255,255,0.45) 56%, rgba(255,255,255,0.06) 82%) !important;
+  }
+  .hero-inner {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 0 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  .hero-copy { max-width: 90% !important; }
+  .hero-title { font-size: clamp(30px, 8.5vw, 40px) !important; }
+  .hero-sub { font-size: 15px !important; margin-top: 12px; }
+}
