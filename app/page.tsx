@@ -63,7 +63,7 @@ export default async function HomePage() {
         {/* HERO */}
         <section className="hero">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="hero-bg" src="/assets/hero-bg.png" alt="" aria-hidden="true" />
+          <img className="hero-bg" src="/assets/hero-bg.jpg" alt="" aria-hidden="true" />
           <div className="hero-overlay" />
           <div className="hero-inner">
             <div className="hero-copy">
