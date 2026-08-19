@@ -4172,3 +4172,27 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .hero-copy { max-width: 100%; }
   .hero-title, .hero-line, .hero-gradient, .hero-sub { text-shadow: none !important; }
 }
+
+/* ===== Hero: texto a la izquierda + difuminado claro para que resalte ===== */
+.hero-overlay {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 255, 255, 0.9) 26%,
+    rgba(255, 255, 255, 0.55) 46%,
+    rgba(255, 255, 255, 0.12) 66%,
+    rgba(255, 255, 255, 0) 80%
+  ) !important;
+}
+.hero-inner { z-index: 2; align-items: flex-start; }
+.hero-copy { max-width: 520px; }
+/* con el difuminado ya no hace falta el realce del texto */
+.hero-title, .hero-line, .hero-gradient, .hero-sub { text-shadow: none !important; }
+@media (max-width: 767px) {
+  .hero-overlay { display: none !important; }
+}
