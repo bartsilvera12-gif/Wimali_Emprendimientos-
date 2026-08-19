@@ -4581,3 +4581,19 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .hero-title { font-size: 24px !important; line-height: 1.1; }
   .hero-sub { font-size: 12.5px !important; margin-top: 8px; max-width: 90%; }
 }
+
+/* Fix movil: texto alineado a la IZQUIERDA (estaba centrado) */
+@media (max-width: 767px) {
+  .hero, .hero-inner, .hero-copy,
+  .hero-title, .hero-line, .hero-gradient, .hero-sub {
+    text-align: left !important;
+  }
+  .hero-copy { margin: 0 !important; }
+  .hero-inner { align-items: flex-start !important; }
+}
+
+/* Movil: texto un poco mas chico */
+@media (max-width: 767px) {
+  .hero-title { font-size: 21px !important; line-height: 1.12; }
+  .hero-sub { font-size: 12px !important; margin-top: 7px; }
+}
