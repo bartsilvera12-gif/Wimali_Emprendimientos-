@@ -46,7 +46,9 @@ export function Header({ whatsappNumber }: { whatsappNumber: string }) {
         <div className="header-inner">
           <Link href="/" className="header-logo" onClick={() => setMenuOpen(false)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/wimali-logo.png" alt="WIMALI Emprendimientos" />
+            <img className="logo-full" src="/assets/wimali-logo.png" alt="WIMALI Emprendimientos" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="logo-iso" src="/assets/wimali-iso.png" alt="WIMALI" />
           </Link>
 
           <nav className="header-nav">

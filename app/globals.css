@@ -3844,3 +3844,26 @@ html, body { background: #ffffff; color: #1a1a1a; }
 .hero-title,
 .hero-line { color: #1a1a1a !important; }
 .hero-sub { color: rgba(0, 0, 0, 0.6) !important; }
+
+/* ===== Nuevo logotipo horizontal (WM + WIMALI) ===== */
+/* El logo ya es transparente: blend normal en cualquier superficie */
+img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !important; }
+/* Alturas acordes a un logo ancho (3:1) para que no desborde el header */
+.header-logo img { height: 44px; }
+.header--scrolled .header-logo img { height: 36px; }
+.menu-top img { height: 40px; }
+@media (max-width: 1139px) {
+  .header-logo img { height: 34px; }
+  .header--scrolled .header-logo img { height: 30px; }
+}
+
+/* ===== Logo responsive: horizontal en desktop, isotipo en movil ===== */
+.header-logo .logo-iso { display: none; }
+.header-logo .logo-full { display: block; }
+@media (max-width: 1139px) {
+  .header-logo .logo-full { display: none; }
+  .header-logo .logo-iso { display: block; height: 34px; }
+}
+
+/* logo del menu (horizontal) a tamaño seguro */
+.menu-top img { height: 32px; }

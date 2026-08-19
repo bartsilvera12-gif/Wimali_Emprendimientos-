@@ -9,6 +9,8 @@ const supabaseHost = (() => {
 
 const nextConfig = {
   reactStrictMode: true,
+  // Ocultar el indicador flotante de desarrollo de Next.js (la "N")
+  devIndicators: false,
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: supabaseHost, pathname: '/**' },
