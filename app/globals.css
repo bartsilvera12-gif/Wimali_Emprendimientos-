@@ -4204,3 +4204,116 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15) !important;
 }
 .btn-wa--header:hover { background: #f2f2f2 !important; color: #1a1a1a !important; }
+
+/* ===== Hero dos columnas: texto izq + imagen COMPLETA mas chica der ===== */
+.hero {
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  align-items: center;
+  gap: clamp(20px, 4vw, 64px);
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 0 !important;
+  padding: clamp(28px, 5vw, 64px) clamp(16px, 4vw, 40px) !important;
+  overflow: visible !important;
+  background: #ffffff;
+}
+.hero-bg {
+  position: relative !important;
+  inset: auto !important;
+  width: 46% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain;
+  border-radius: 14px !important;
+}
+.hero-overlay, .hero-particles { display: none !important; }
+.hero-inner {
+  position: static !important;
+  inset: auto !important;
+  flex: 1;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+.hero-copy { max-width: 520px; }
+.hero-title, .hero-line, .hero-gradient, .hero-sub { text-shadow: none !important; }
+@media (max-width: 767px) {
+  .hero { flex-direction: column-reverse !important; text-align: center; gap: 22px; }
+  .hero-bg { width: 86% !important; }
+  .hero-copy { max-width: 100%; margin: 0 auto; }
+}
+
+/* ===== Hero FINAL v2: imagen completa a todo lo ancho + texto encima (izq) + difuminado ===== */
+.hero {
+  display: block !important;
+  position: relative;
+  max-width: none !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #ffffff;
+}
+.hero-bg {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: fill;
+  border-radius: 0 !important;
+}
+.hero-overlay {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 255, 255, 0.9) 26%,
+    rgba(255, 255, 255, 0.55) 46%,
+    rgba(255, 255, 255, 0.12) 66%,
+    rgba(255, 255, 255, 0) 80%
+  ) !important;
+}
+.hero-particles { display: none !important; }
+.hero-inner {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 clamp(16px, 3vw, 44px) !important;
+}
+.hero-copy { max-width: 520px; }
+@media (max-width: 767px) {
+  .hero { display: flex !important; flex-direction: column; }
+  .hero-inner { position: static !important; inset: auto !important; padding: 22px 18px 6px !important; }
+  .hero-overlay { display: none !important; }
+}
+
+/* ===== Imagen de fondo mas chica (banda mas corta) ===== */
+.hero { height: clamp(360px, 46vh, 470px) !important; min-height: 0 !important; }
+.hero-bg { height: 100% !important; object-fit: cover !important; object-position: center 42% !important; }
+@media (max-width: 767px) {
+  .hero { height: auto !important; display: flex !important; flex-direction: column; }
+  .hero-bg { height: auto !important; object-fit: fill !important; }
+}
+
+/* Ajuste: banda mas chica pero que el texto entre (texto un poco mas compacto) */
+.hero { height: clamp(410px, 54vh, 480px) !important; }
+.hero-title { font-size: clamp(30px, 4vw, 44px) !important; line-height: 1.06; }
+.hero-sub { font-size: clamp(14px, 1.3vw, 15.5px) !important; margin-top: 14px; }
+@media (max-width: 767px) {
+  .hero { height: auto !important; }
+  .hero-title { font-size: clamp(30px, 8vw, 40px) !important; }
+}
