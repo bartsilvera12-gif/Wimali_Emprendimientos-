@@ -3883,3 +3883,23 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
 .header-nav { gap: clamp(8px, 1.3vw, 20px); }
 .header-nav a { font-size: 13.5px; }
 .btn-wa--header { padding: 0 16px; }
+
+/* ===== Footer ROJO (marca) ===== */
+.footer { background: #a5141c !important; }
+.footer-brand img { height: auto !important; width: 240px; max-width: 100%; }
+.footer-title { color: #e4bd69 !important; }                 /* titulos en dorado */
+.footer-links a, .footer-links span { color: rgba(255, 255, 255, 0.85) !important; }
+.footer-links a:hover { color: #e4bd69 !important; }
+.footer-brand p { color: rgba(255, 255, 255, 0.82) !important; }
+.footer-bottom { border-top-color: rgba(255, 255, 255, 0.18) !important; }
+.footer-bottom span, .footer-bottom .footer-address { color: rgba(255, 255, 255, 0.6) !important; }
+.footer-priv { color: rgba(255, 255, 255, 0.72) !important; }
+.footer-priv:hover { color: #fff !important; }
+
+/* ===== FAB WhatsApp en los colores de la marca (rojo) ===== */
+.fab-wa {
+  background: linear-gradient(140deg, #ff4d59, #e11d2a) !important;
+  color: #fff !important;
+  box-shadow: 0 12px 30px rgba(225, 29, 42, 0.4) !important;
+}
+.fab-wa:hover { color: #fff !important; filter: brightness(1.05); }
