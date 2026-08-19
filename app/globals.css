@@ -3984,3 +3984,18 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
 /* Ajuste de ancho del logo en login y sidebar (evita desborde del logo ancho) */
 .admin-login-brand img { height: auto !important; width: 250px; max-width: 100%; }
 .admin-logo { height: auto !important; width: 180px; max-width: 100%; }
+
+/* ===== Menu movil (hamburguesa) en rojo de marca ===== */
+.menu-overlay {
+  background: linear-gradient(165deg, #c1121f, #8f0f17) !important;
+  backdrop-filter: none !important;
+}
+.menu-nav a {
+  color: #ffffff;
+  border-bottom-color: rgba(255, 255, 255, 0.15) !important;
+}
+.menu-nav .menu-link--gold { color: #ffd98a !important; }   /* Ofertas en dorado */
+.menu-close { border-color: rgba(255, 255, 255, 0.45); color: #ffffff; }
+/* Boton "Comprar por WhatsApp" del menu: blanco con texto rojo (contrasta sobre rojo) */
+.menu-wa { background: #ffffff !important; color: #c1121f !important; }
+.menu-wa:hover { color: #c1121f !important; }
