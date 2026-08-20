@@ -217,6 +217,11 @@ export default function HomePage() {
                   <div className="info-label">HORARIOS</div>
                   <div className="info-hours">{business?.opening_hours}</div>
                 </div>
+                <div className="info-sep" />
+                <div>
+                  <div className="info-label">WHATSAPP</div>
+                  <div className="info-value">{business?.phone_display ?? '+595 995 364 978'}</div>
+                </div>
                 <div className="info-actions">
                   <a
                     className="btn-gold btn-gold--sm"
