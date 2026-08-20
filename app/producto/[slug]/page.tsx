@@ -1,21 +1,16 @@
-import { notFound } from 'next/navigation'
-import { StoreShell } from '@/components/store/StoreShell'
-import { ProductView } from '@/components/store/ProductView'
-import { getBusiness, getProductBySlug } from '@/lib/queries'
+import { ProductPageClient } from '@/components/store/ProductPageClient'
+import { getProducts } from '@/lib/queries'
 
-export const revalidate = 300
+export async function generateStaticParams() {
+  try {
+    const products = await getProducts()
+    return products.map((p) => ({ slug: p.slug }))
+  } catch {
+    return []
+  }
+}
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const [product, business] = await Promise.all([getProductBySlug(slug), getBusiness()])
-
-  if (!product) notFound()
-
-  const whatsapp = business?.whatsapp_number || '595995364978'
-
-  return (
-    <StoreShell whatsappNumber={whatsapp}>
-      <ProductView product={product} whatsappNumber={whatsapp} />
-    </StoreShell>
-  )
+  return <ProductPageClient slug={slug} />
 }

@@ -1,29 +1,38 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Plus, Pencil } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/client'
 import { DeleteButton, ToggleActive } from '@/components/admin/RowActions'
-import { deleteCategory, toggleCategoryActive } from '@/lib/actions/categories'
+import { deleteCategory, toggleCategoryActive } from '@/lib/mutations'
 import type { Category, Product } from '@/lib/supabase/types'
 
-export const dynamic = 'force-dynamic'
+export default function CategoriasPage() {
+  const [allCategories, setAllCategories] = useState<Category[]>([])
+  const [counts, setCounts] = useState<Map<string, number>>(new Map())
+  const [loading, setLoading] = useState(true)
 
-export default async function CategoriasPage() {
-  const supabase = await createClient()
-  const [{ data: cats }, { data: prods }, { data: imgs }] = await Promise.all([
-    supabase.from('categories').select('*').order('sort_order'),
-    supabase.from('products').select('id,category_id'),
-    supabase.from('product_images').select('product_id'),
-  ])
-  const allCategories = (cats as Category[]) ?? []
-  // Solo las categorías que aparecen en la web (con imagen).
+  useEffect(() => {
+    const supabase = createClient()
+    ;(async () => {
+      const [{ data: cats }, { data: prods }, { data: imgs }] = await Promise.all([
+        supabase.from('categories').select('*').order('sort_order'),
+        supabase.from('products').select('id,category_id'),
+        supabase.from('product_images').select('product_id'),
+      ])
+      setAllCategories((cats as Category[]) ?? [])
+      const withImage = new Set(((imgs as { product_id: string }[]) ?? []).map((i) => i.product_id))
+      const m = new Map<string, number>()
+      for (const p of ((prods as Pick<Product, 'id' | 'category_id'>[]) ?? [])) {
+        if (p.category_id && withImage.has(p.id)) m.set(p.category_id, (m.get(p.category_id) ?? 0) + 1)
+      }
+      setCounts(m)
+      setLoading(false)
+    })()
+  }, [])
+
   const categories = allCategories.filter((c) => !!c.image_url || !!c.image_path)
-
-  // Contar solo productos publicados (con imagen).
-  const withImage = new Set(((imgs as { product_id: string }[]) ?? []).map((i) => i.product_id))
-  const counts = new Map<string, number>()
-  for (const p of ((prods as Pick<Product, 'id' | 'category_id'>[]) ?? [])) {
-    if (p.category_id && withImage.has(p.id)) counts.set(p.category_id, (counts.get(p.category_id) ?? 0) + 1)
-  }
 
   return (
     <div className="admin-page">
@@ -42,7 +51,9 @@ export default async function CategoriasPage() {
         </Link>
       </div>
 
-      {categories.length ? (
+      {loading ? (
+        <p className="admin-empty">Cargando…</p>
+      ) : categories.length ? (
         <div className="admin-table-wrap">
           <table className="admin-table">
             <thead>
@@ -79,7 +90,7 @@ export default async function CategoriasPage() {
                   </td>
                   <td>
                     <div className="admin-row-actions">
-                      <Link href={`/admin/categorias/${c.id}`} className="admin-icon-btn" title="Editar">
+                      <Link href={`/admin/categorias/editar?id=${c.id}`} className="admin-icon-btn" title="Editar">
                         <Pencil size={16} />
                       </Link>
                       <DeleteButton

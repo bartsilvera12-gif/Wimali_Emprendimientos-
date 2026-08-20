@@ -1,15 +1,26 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/client'
 import { ProductForm } from '@/components/admin/ProductForm'
 import type { Category } from '@/lib/supabase/types'
 
-export const dynamic = 'force-dynamic'
+export default function NuevoProductoPage() {
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
 
-export default async function NuevoProductoPage() {
-  const supabase = await createClient()
-  const { data } = await supabase.from('categories').select('*').order('sort_order')
-  const categories = (data as Category[]) ?? []
+  useEffect(() => {
+    createClient()
+      .from('categories')
+      .select('*')
+      .order('sort_order')
+      .then(({ data }) => {
+        setCategories((data as Category[]) ?? [])
+        setLoading(false)
+      })
+  }, [])
 
   return (
     <div className="admin-page">
@@ -21,7 +32,7 @@ export default async function NuevoProductoPage() {
           <h1>Nuevo producto</h1>
         </div>
       </div>
-      <ProductForm categories={categories} />
+      {loading ? <p className="admin-empty">Cargando…</p> : <ProductForm categories={categories} />}
     </div>
   )
 }

@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { useRouter } from 'next/navigation'
 import { Trash2, Loader2 } from 'lucide-react'
-import type { ActionResult } from '@/lib/actions/products'
+import type { ActionResult } from '@/lib/mutations'
 
 // Botón de eliminar con confirmación. Recibe una server action ya "bindeada".
 export function DeleteButton({
@@ -15,14 +14,13 @@ export function DeleteButton({
   message?: string
   compact?: boolean
 }) {
-  const router = useRouter()
   const [pending, start] = useTransition()
 
   const onClick = () => {
     if (!confirm(message)) return
     start(async () => {
       const r = await action()
-      if (r.ok) router.refresh()
+      if (r.ok) window.location.reload()
       else alert(r.error || 'No se pudo eliminar')
     })
   }
@@ -48,7 +46,6 @@ export function ToggleActive({
   active: boolean
   action: (next: boolean) => Promise<ActionResult>
 }) {
-  const router = useRouter()
   const [on, setOn] = useState(active)
   const [pending, start] = useTransition()
 
@@ -57,7 +54,7 @@ export function ToggleActive({
     setOn(next)
     start(async () => {
       const r = await action(next)
-      if (r.ok) router.refresh()
+      if (r.ok) window.location.reload()
       else {
         setOn(!next)
         alert(r.error || 'No se pudo actualizar')

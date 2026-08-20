@@ -1,29 +1,41 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Plus, Pencil } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/client'
 import { formatPYG } from '@/lib/format'
 import { DeleteButton, ToggleActive } from '@/components/admin/RowActions'
-import { deleteProduct, toggleProductActive } from '@/lib/actions/products'
+import { deleteProduct, toggleProductActive } from '@/lib/mutations'
 import type { Category, Product, ProductImage } from '@/lib/supabase/types'
 
-export const dynamic = 'force-dynamic'
+export default function ProductosPage() {
+  const [allProducts, setAllProducts] = useState<Product[]>([])
+  const [catMap, setCatMap] = useState<Map<string, string>>(new Map())
+  const [imgFor, setImgFor] = useState<(id: string) => string | null>(() => () => null)
+  const [withImage, setWithImage] = useState<Set<string>>(new Set())
+  const [loading, setLoading] = useState(true)
 
-export default async function ProductosPage() {
-  const supabase = await createClient()
-  const [{ data: prods }, { data: cats }, { data: imgs }] = await Promise.all([
-    supabase.from('products').select('*').order('sort_order').order('created_at', { ascending: false }),
-    supabase.from('categories').select('id,name'),
-    supabase.from('product_images').select('product_id,public_url,is_primary'),
-  ])
-  const allProducts = (prods as Product[]) ?? []
-  const catMap = new Map((((cats as Category[]) ?? [])).map((c) => [c.id, c.name]))
-  const imgList = (imgs as Pick<ProductImage, 'product_id' | 'public_url' | 'is_primary'>[]) ?? []
-  const withImage = new Set(imgList.map((i) => i.product_id))
-  const imgFor = (pid: string) => {
-    const list = imgList.filter((i) => i.product_id === pid)
-    return (list.find((i) => i.is_primary) ?? list[0])?.public_url ?? null
-  }
-  // Solo los productos que aparecen en la web (los que tienen imagen).
+  useEffect(() => {
+    const supabase = createClient()
+    ;(async () => {
+      const [{ data: prods }, { data: cats }, { data: imgs }] = await Promise.all([
+        supabase.from('products').select('*').order('sort_order').order('created_at', { ascending: false }),
+        supabase.from('categories').select('id,name'),
+        supabase.from('product_images').select('product_id,public_url,is_primary'),
+      ])
+      setAllProducts((prods as Product[]) ?? [])
+      setCatMap(new Map((((cats as Category[]) ?? [])).map((c) => [c.id, c.name])))
+      const imgList = (imgs as Pick<ProductImage, 'product_id' | 'public_url' | 'is_primary'>[]) ?? []
+      setWithImage(new Set(imgList.map((i) => i.product_id)))
+      setImgFor(() => (pid: string) => {
+        const list = imgList.filter((i) => i.product_id === pid)
+        return (list.find((i) => i.is_primary) ?? list[0])?.public_url ?? null
+      })
+      setLoading(false)
+    })()
+  }, [])
+
   const products = allProducts.filter((p) => withImage.has(p.id))
 
   return (
@@ -43,7 +55,9 @@ export default async function ProductosPage() {
         </Link>
       </div>
 
-      {products.length ? (
+      {loading ? (
+        <p className="admin-empty">Cargando…</p>
+      ) : products.length ? (
         <div className="admin-table-wrap">
           <table className="admin-table">
             <thead>
@@ -91,7 +105,7 @@ export default async function ProductosPage() {
                     </td>
                     <td>
                       <div className="admin-row-actions">
-                        <Link href={`/admin/productos/${p.id}`} className="admin-icon-btn" title="Editar">
+                        <Link href={`/admin/productos/editar?id=${p.id}`} className="admin-icon-btn" title="Editar">
                           <Pencil size={16} />
                         </Link>
                         <DeleteButton action={deleteProduct.bind(null, p.id)} message={`¿Eliminar "${p.name}"?`} />

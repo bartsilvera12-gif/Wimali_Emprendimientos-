@@ -1,4 +1,4 @@
-import { createReadClient } from '@/lib/supabase/server'
+import { db } from '@/lib/supabase/db'
 import type {
   BusinessSettings,
   Category,
@@ -11,7 +11,7 @@ import type {
 // Todas las consultas públicas leen del schema propio vía RLS (solo filas activas).
 
 export async function getBusiness(): Promise<BusinessSettings | null> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('business_settings')
     .select('*')
@@ -22,7 +22,7 @@ export async function getBusiness(): Promise<BusinessSettings | null> {
 }
 
 export async function getSections(): Promise<Record<string, SiteSection>> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase.from('site_sections').select('*').eq('active', true)
   const map: Record<string, SiteSection> = {}
   ;(data as SiteSection[] | null)?.forEach((s) => {
@@ -32,7 +32,7 @@ export async function getSections(): Promise<Record<string, SiteSection>> {
 }
 
 export async function getCategories(): Promise<Category[]> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('categories')
     .select('*')
@@ -51,7 +51,7 @@ const PRODUCT_SELECT =
   '*, category:categories(id,name,slug), images:product_images(id,public_url,alt_text,is_primary,sort_order)'
 
 export async function getProducts(): Promise<ProductWithRelations[]> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('products')
     .select(PRODUCT_SELECT)
@@ -62,18 +62,18 @@ export async function getProducts(): Promise<ProductWithRelations[]> {
 }
 
 export async function getCategoryBySlug(slug: string): Promise<Category | null> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('categories')
     .select('*')
     .eq('slug', slug)
     .eq('active', true)
     .maybeSingle()
-  return (data as Category) ?? null
+  return (data as unknown as Category) ?? null
 }
 
 export async function getProductsByCategory(categoryId: string): Promise<ProductWithRelations[]> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('products')
     .select(PRODUCT_SELECT)
@@ -84,18 +84,18 @@ export async function getProductsByCategory(categoryId: string): Promise<Product
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductWithRelations | null> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('products')
     .select(PRODUCT_SELECT)
     .eq('slug', slug)
     .eq('active', true)
     .maybeSingle()
-  return (data as ProductWithRelations) ?? null
+  return (data as unknown as ProductWithRelations) ?? null
 }
 
 export async function getBenefits(): Promise<Benefit[]> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('benefits')
     .select('*')
@@ -105,7 +105,7 @@ export async function getBenefits(): Promise<Benefit[]> {
 }
 
 export async function getSocialLinks(): Promise<SocialLink[]> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('social_links')
     .select('*')
@@ -115,7 +115,7 @@ export async function getSocialLinks(): Promise<SocialLink[]> {
 }
 
 export async function getHeroProducts(): Promise<ProductWithRelations[]> {
-  const supabase = await createReadClient()
+  const supabase = db()
   const { data } = await supabase
     .from('hero_products')
     .select('sort_order, product:products(' + PRODUCT_SELECT + ')')

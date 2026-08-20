@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Upload, X } from 'lucide-react'
-import { saveCategory } from '@/lib/actions/categories'
+import { saveCategory } from '@/lib/mutations'
 import { uploadToStorage } from '@/lib/upload'
 import { slugify } from '@/lib/format'
 import type { Category } from '@/lib/supabase/types'

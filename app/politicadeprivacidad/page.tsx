@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { getBusiness } from '@/lib/queries'
 
-export const dynamic = 'force-dynamic'
-
 export const metadata = {
   title: 'Política de Privacidad | WIMALI Emprendimientos',
 }

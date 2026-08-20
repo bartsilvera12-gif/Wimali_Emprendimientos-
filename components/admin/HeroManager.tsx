@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Plus, X } from 'lucide-react'
-import { addHeroProduct, removeHeroProduct } from '@/lib/actions/misc'
+import { addHeroProduct, removeHeroProduct } from '@/lib/mutations'
 
 interface HeroItem {
   id: string // hero_products.id

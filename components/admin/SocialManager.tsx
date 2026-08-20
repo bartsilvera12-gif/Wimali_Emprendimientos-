@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Plus, Pencil } from 'lucide-react'
-import { saveSocial, deleteSocial, toggleSocialActive } from '@/lib/actions/misc'
+import { saveSocial, deleteSocial, toggleSocialActive } from '@/lib/mutations'
 import { DeleteButton, ToggleActive } from './RowActions'
 import type { SocialLink } from '@/lib/supabase/types'
 

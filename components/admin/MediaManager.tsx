@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Upload, Copy, Check } from 'lucide-react'
-import { registerMedia, deleteMedia } from '@/lib/actions/misc'
+import { registerMedia, deleteMedia } from '@/lib/mutations'
 import { uploadToStorage } from '@/lib/upload'
 import { DeleteButton } from './RowActions'
 import type { MediaAsset } from '@/lib/supabase/types'

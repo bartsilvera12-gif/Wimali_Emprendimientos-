@@ -4597,3 +4597,23 @@ img[src*="wimali-logo"], .admin-logo, .menu-top img { mix-blend-mode: normal !im
   .hero-title { font-size: 21px !important; line-height: 1.12; }
   .hero-sub { font-size: 12px !important; margin-top: 7px; }
 }
+
+/* ===== Admin: pantalla de carga (auth guard client-side) ===== */
+.admin-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+.admin-spinner {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 3px solid rgba(214, 40, 40, 0.18);
+  border-top-color: #d62828;
+  animation: adminSpin 0.7s linear infinite;
+}
+@keyframes adminSpin {
+  to { transform: rotate(360deg); }
+}

@@ -1,25 +1,16 @@
 /** @type {import('next').NextConfig} */
-const supabaseHost = (() => {
-  try {
-    return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://api.neura.com.py').hostname
-  } catch {
-    return 'api.neura.com.py'
-  }
-})()
-
 const nextConfig = {
+  // Export estático: genera HTML/JS estático (carpeta `out/`, renombrada a
+  // `dist/` en el build) para subir a Hostinger. El panel /admin y la tienda
+  // corren en el navegador (Supabase anon key + RLS).
+  output: 'export',
+  images: { unoptimized: true },
+  trailingSlash: true,
   reactStrictMode: true,
-  // Ocultar el indicador flotante de desarrollo de Next.js (la "N")
+  // Oculta el indicador de desarrollo de Next.js (la "N").
   devIndicators: false,
-  images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: supabaseHost, pathname: '/**' },
-    ],
-  },
-  eslint: {
-    // El linteo no bloquea el build de producción.
-    ignoreDuringBuilds: true,
-  },
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: false },
 }
 
 export default nextConfig

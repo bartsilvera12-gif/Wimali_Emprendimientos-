@@ -1,21 +1,31 @@
-import { createClient } from '@/lib/supabase/server'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { ContentManager } from '@/components/admin/ContentManager'
 import type { SiteSection, Benefit } from '@/lib/supabase/types'
 
-export const dynamic = 'force-dynamic'
+const HIDDEN_SECTIONS = ['catalog']
 
-export default async function ContenidoPage() {
-  const supabase = await createClient()
-  const [{ data: secs }, { data: bens }] = await Promise.all([
-    supabase.from('site_sections').select('*').order('sort_order'),
-    supabase.from('benefits').select('*').order('sort_order'),
-  ])
+export default function ContenidoPage() {
+  const [sections, setSections] = useState<SiteSection[]>([])
+  const [benefits, setBenefits] = useState<Benefit[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Secciones que ya no se muestran en la web (ocultas del editor).
-  const HIDDEN_SECTIONS = ['catalog']
-  const sections = ((secs as SiteSection[]) ?? []).filter(
-    (s) => !HIDDEN_SECTIONS.includes(s.section_key),
-  )
+  useEffect(() => {
+    const supabase = createClient()
+    ;(async () => {
+      const [{ data: secs }, { data: bens }] = await Promise.all([
+        supabase.from('site_sections').select('*').order('sort_order'),
+        supabase.from('benefits').select('*').order('sort_order'),
+      ])
+      setSections(
+        ((secs as SiteSection[]) ?? []).filter((s) => !HIDDEN_SECTIONS.includes(s.section_key)),
+      )
+      setBenefits((bens as Benefit[]) ?? [])
+      setLoading(false)
+    })()
+  }, [])
 
   return (
     <div className="admin-page">
@@ -25,7 +35,7 @@ export default async function ContenidoPage() {
           <p>Textos de las secciones y beneficios de la tienda.</p>
         </div>
       </div>
-      <ContentManager sections={sections} benefits={(bens as Benefit[]) ?? []} />
+      {loading ? <p className="admin-empty">Cargando…</p> : <ContentManager sections={sections} benefits={benefits} />}
     </div>
   )
 }

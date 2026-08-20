@@ -1,12 +1,25 @@
-import { createClient } from '@/lib/supabase/server'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import { BusinessForm } from '@/components/admin/BusinessForm'
 import type { BusinessSettings } from '@/lib/supabase/types'
 
-export const dynamic = 'force-dynamic'
+export default function NegocioPage() {
+  const [business, setBusiness] = useState<BusinessSettings | null>(null)
+  const [loading, setLoading] = useState(true)
 
-export default async function NegocioPage() {
-  const supabase = await createClient()
-  const { data } = await supabase.from('business_settings').select('*').limit(1).maybeSingle()
+  useEffect(() => {
+    createClient()
+      .from('business_settings')
+      .select('*')
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        setBusiness((data as BusinessSettings) ?? null)
+        setLoading(false)
+      })
+  }, [])
 
   return (
     <div className="admin-page">
@@ -16,7 +29,7 @@ export default async function NegocioPage() {
           <p>Datos de contacto, ubicación y SEO de la tienda.</p>
         </div>
       </div>
-      <BusinessForm business={(data as BusinessSettings) ?? null} />
+      {loading ? <p className="admin-empty">Cargando…</p> : <BusinessForm business={business} />}
     </div>
   )
 }

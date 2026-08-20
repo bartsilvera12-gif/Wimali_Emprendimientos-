@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Upload, Star, Trash2, X } from 'lucide-react'
-import { saveProduct, deleteProductImage, setPrimaryImage } from '@/lib/actions/products'
+import { saveProduct, deleteProductImage, setPrimaryImage } from '@/lib/mutations'
 import { uploadToStorage } from '@/lib/upload'
 import { slugify } from '@/lib/format'
 import type { Category, Product, ProductImage } from '@/lib/supabase/types'

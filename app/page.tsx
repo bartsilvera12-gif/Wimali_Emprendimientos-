@@ -1,6 +1,8 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import {
-  Search,
   Package,
   MessageCircle,
   ShoppingCart,
@@ -22,10 +24,14 @@ import {
   getSocialLinks,
 } from '@/lib/queries'
 import { waPlain } from '@/lib/whatsapp'
-
-// Cacheado (ISR). El admin invalida con revalidatePath al guardar, así los
-// cambios se ven al instante y las visitas normales cargan más rápido.
-export const revalidate = 300
+import type {
+  BusinessSettings,
+  Category,
+  ProductWithRelations,
+  SiteSection,
+  Benefit,
+  SocialLink,
+} from '@/lib/supabase/types'
 
 const BENEFIT_ICONS: Record<string, LucideIcon> = {
   package: Package,
@@ -34,15 +40,32 @@ const BENEFIT_ICONS: Record<string, LucideIcon> = {
   'shield-check': ShieldCheck,
 }
 
-export default async function HomePage() {
-  const [business, sections, categories, products, benefits, socials] = await Promise.all([
-    getBusiness(),
-    getSections(),
-    getCategories(),
-    getProducts(),
-    getBenefits(),
-    getSocialLinks(),
-  ])
+export default function HomePage() {
+  const [business, setBusiness] = useState<BusinessSettings | null>(null)
+  const [sections, setSections] = useState<Record<string, SiteSection>>({})
+  const [categories, setCategories] = useState<Category[]>([])
+  const [products, setProducts] = useState<ProductWithRelations[]>([])
+  const [benefits, setBenefits] = useState<Benefit[]>([])
+  const [socials, setSocials] = useState<SocialLink[]>([])
+
+  useEffect(() => {
+    ;(async () => {
+      const [b, s, c, p, be, so] = await Promise.all([
+        getBusiness(),
+        getSections(),
+        getCategories(),
+        getProducts(),
+        getBenefits(),
+        getSocialLinks(),
+      ])
+      setBusiness(b)
+      setSections(s)
+      setCategories(c)
+      setProducts(p)
+      setBenefits(be)
+      setSocials(so)
+    })()
+  }, [])
 
   const whatsapp = business?.whatsapp_number || '595995364978'
   const wa = waPlain(whatsapp)
@@ -52,7 +75,6 @@ export default async function HomePage() {
   const offers = products.filter(
     (p) => p.is_offer && p.stock > 0 && p.previous_price && p.previous_price > p.price,
   )
-  // En "Seguinos" no mostramos WhatsApp (ya está en el header, carrito y botón flotante).
   const socialLinks = socials.filter((s) => s.platform.toLowerCase() !== 'whatsapp')
   const mapQuery = business?.map_query || business?.address || 'Paraguay'
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`
@@ -81,7 +103,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* CATEGORÍAS (entrada principal a los productos) */}
+        {/* CATEGORÍAS */}
         <section id="categorias" className="section section--cats reveal">
           <div className="section-inner">
             <div className="kicker">CATEGORÍAS</div>
@@ -110,8 +132,7 @@ export default async function HomePage() {
               </div>
             ) : (
               <div className="catalog-empty">
-                <div className="catalog-empty-title">Todavía no hay categorías con imagen</div>
-                <p>Cargá una imagen a cada categoría desde el panel para mostrarlas.</p>
+                <div className="catalog-empty-title">Cargando categorías…</div>
               </div>
             )}
           </div>
@@ -152,7 +173,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* NOSOTROS (sin números) */}
+        {/* NOSOTROS */}
         <section id="nosotros" className="section section--about reveal">
           <div className="section-inner section-inner--narrow">
             <div className="about-head">
@@ -216,7 +237,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* REDES (con íconos reales) */}
+        {/* REDES */}
         {socialLinks.length > 0 && (
           <section id="contacto" className="section section--contact reveal">
             <div className="section-inner section-inner--narrow">
@@ -227,19 +248,19 @@ export default async function HomePage() {
               <div className="social-grid">
                 {socialLinks.map((s) => {
                   const p = s.platform.toLowerCase()
-                  const wa = p === 'whatsapp'
+                  const isWa = p === 'whatsapp'
                   return (
                     <a
                       key={s.id}
-                      className={`social-card ${wa ? 'social-card--wa' : ''}`}
+                      className={`social-card ${isWa ? 'social-card--wa' : ''}`}
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <span className={`social-icon ${wa ? 'social-icon--wa' : 'social-icon--cream'}`}>
+                      <span className={`social-icon ${isWa ? 'social-icon--wa' : 'social-icon--cream'}`}>
                         {p === 'instagram' && <Instagram size={22} />}
                         {p === 'facebook' && <Facebook size={22} />}
-                        {wa && <WaIcon size={22} color="#fff" />}
+                        {isWa && <WaIcon size={22} color="#fff" />}
                       </span>
                       <span>
                         <span className="social-name">{s.label ?? s.platform}</span>

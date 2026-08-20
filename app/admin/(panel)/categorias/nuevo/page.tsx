@@ -2,8 +2,6 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { CategoryForm } from '@/components/admin/CategoryForm'
 
-export const dynamic = 'force-dynamic'
-
 export default function NuevaCategoriaPage() {
   return (
     <div className="admin-page">

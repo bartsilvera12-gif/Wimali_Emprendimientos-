@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Check, Plus, Pencil } from 'lucide-react'
-import { saveSection, saveBenefit, deleteBenefit } from '@/lib/actions/misc'
+import { saveSection, saveBenefit, deleteBenefit } from '@/lib/mutations'
 import { DeleteButton } from './RowActions'
 import type { SiteSection, Benefit } from '@/lib/supabase/types'
 

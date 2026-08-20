@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Check } from 'lucide-react'
-import { saveBusiness } from '@/lib/actions/misc'
+import { saveBusiness } from '@/lib/mutations'
 import type { BusinessSettings } from '@/lib/supabase/types'
 
 export function BusinessForm({ business }: { business: BusinessSettings | null }) {

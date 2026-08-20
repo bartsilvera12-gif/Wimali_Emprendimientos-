@@ -1,35 +1,47 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Package, Tags, Percent, AlertTriangle, PackageX, Plus, Store } from 'lucide-react'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/client'
 import { formatPYG } from '@/lib/format'
 import { LOW_STOCK_THRESHOLD } from '@/lib/constants'
 import type { Product } from '@/lib/supabase/types'
 
-export const dynamic = 'force-dynamic'
+export default function AdminDashboard() {
+  const [products, setProducts] = useState<Product[]>([])
+  const [categoriesCount, setCategoriesCount] = useState(0)
+  const [loading, setLoading] = useState(true)
 
-export default async function AdminDashboard() {
-  const supabase = await createClient()
-  const [{ data }, { data: imgs }, { count: categoriesCount }] = await Promise.all([
-    supabase
-      .from('products')
-      .select('id,name,sku,price,stock,active,is_offer,previous_price,created_at')
-      .order('created_at', { ascending: false }),
-    supabase.from('product_images').select('product_id'),
-    supabase.from('categories').select('id', { count: 'exact', head: true }),
-  ])
-  // Solo los productos que aparecen en la web (los que tienen imagen).
-  const withImage = new Set(((imgs as { product_id: string }[]) ?? []).map((i) => i.product_id))
-  const products = ((data as Product[]) ?? []).filter((p) => withImage.has(p.id))
+  useEffect(() => {
+    const supabase = createClient()
+    ;(async () => {
+      const [{ data }, { data: imgs }, { count }] = await Promise.all([
+        supabase
+          .from('products')
+          .select('id,name,sku,price,stock,active,is_offer,previous_price,created_at')
+          .order('created_at', { ascending: false }),
+        supabase.from('product_images').select('product_id'),
+        supabase.from('categories').select('id', { count: 'exact', head: true }),
+      ])
+      const withImage = new Set(((imgs as { product_id: string }[]) ?? []).map((i) => i.product_id))
+      setProducts(((data as Product[]) ?? []).filter((p) => withImage.has(p.id)))
+      setCategoriesCount(count ?? 0)
+      setLoading(false)
+    })()
+  }, [])
 
   const activos = products.filter((p) => p.active)
-  const ofertas = products.filter((p) => p.is_offer && p.active && p.stock > 0 && p.previous_price && p.previous_price > p.price)
+  const ofertas = products.filter(
+    (p) => p.is_offer && p.active && p.stock > 0 && p.previous_price && p.previous_price > p.price,
+  )
   const sinStock = products.filter((p) => p.stock <= 0)
   const bajoStock = products.filter((p) => p.stock > 0 && p.stock <= LOW_STOCK_THRESHOLD)
 
   const cards = [
     { label: 'Productos en la web', value: products.length, icon: Package },
     { label: 'Productos activos', value: activos.length, icon: Package },
-    { label: 'Categorías', value: categoriesCount ?? 0, icon: Tags },
+    { label: 'Categorías', value: categoriesCount, icon: Tags },
     { label: 'Ofertas activas', value: ofertas.length, icon: Percent },
     { label: 'Sin stock', value: sinStock.length, icon: PackageX },
     { label: 'Bajo stock', value: bajoStock.length, icon: AlertTriangle },
@@ -38,8 +50,10 @@ export default async function AdminDashboard() {
   return (
     <div className="admin-page">
       <div className="admin-page-head">
-        <h1>Dashboard</h1>
-        <p>Resumen de tu tienda.</p>
+        <div>
+          <h1>Dashboard</h1>
+          <p>Resumen de tu tienda.</p>
+        </div>
       </div>
 
       <div className="admin-cards">
@@ -51,7 +65,7 @@ export default async function AdminDashboard() {
                 <Icon size={20} />
               </div>
               <div>
-                <div className="admin-card-value">{c.value}</div>
+                <div className="admin-card-value">{loading ? '…' : c.value}</div>
                 <div className="admin-card-label">{c.label}</div>
               </div>
             </div>
@@ -60,10 +74,10 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="admin-quick">
-        <Link href="/admin/productos" className="admin-quick-btn">
+        <Link href="/admin/productos/nuevo" className="admin-quick-btn">
           <Plus size={18} /> Nuevo producto
         </Link>
-        <Link href="/admin/categorias" className="admin-quick-btn">
+        <Link href="/admin/categorias/nuevo" className="admin-quick-btn">
           <Tags size={18} /> Nueva categoría
         </Link>
         <Link href="/admin/negocio" className="admin-quick-btn">
@@ -96,7 +110,7 @@ export default async function AdminDashboard() {
               </tbody>
             </table>
           ) : (
-            <p className="admin-empty">Sin productos con bajo stock.</p>
+            <p className="admin-empty">{loading ? 'Cargando…' : 'Sin productos con bajo stock.'}</p>
           )}
         </section>
 
@@ -128,7 +142,7 @@ export default async function AdminDashboard() {
               </tbody>
             </table>
           ) : (
-            <p className="admin-empty">Todavía no hay productos.</p>
+            <p className="admin-empty">{loading ? 'Cargando…' : 'Todavía no hay productos.'}</p>
           )}
         </section>
       </div>
