@@ -20,7 +20,6 @@ function SectionCard({ section }: { section: SiteSection }) {
     setSaving(false)
     if (r.ok) {
       setSaved(true)
-      router.refresh()
       setTimeout(() => setSaved(false), 2000)
     } else alert(r.error || 'No se pudo guardar')
   }
@@ -77,7 +76,7 @@ function BenefitForm({ benefit, onDone }: { benefit?: Benefit; onDone: () => voi
     setSaving(false)
     if (r.ok) {
       onDone()
-      router.refresh()
+      window.location.reload()
     } else alert(r.error || 'No se pudo guardar')
   }
 

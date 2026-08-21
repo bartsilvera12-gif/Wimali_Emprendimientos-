@@ -15,6 +15,7 @@ import { StoreShell } from '@/components/store/StoreShell'
 import { ProductCard } from '@/components/store/ProductCard'
 import { ProductImage } from '@/components/store/ProductImage'
 import { WaIcon } from '@/components/store/WaIcon'
+import { TikTokIcon } from '@/components/store/TikTokIcon'
 import {
   getBusiness,
   getSections,
@@ -255,6 +256,7 @@ export default function HomePage() {
                       <span className={`social-icon ${isWa ? 'social-icon--wa' : 'social-icon--cream'}`}>
                         {p === 'instagram' && <Instagram size={22} />}
                         {p === 'facebook' && <Facebook size={22} />}
+                        {p === 'tiktok' && <TikTokIcon size={22} />}
                         {isWa && <WaIcon size={22} color="#fff" />}
                       </span>
                       <span>

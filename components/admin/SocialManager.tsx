@@ -23,7 +23,7 @@ export function SocialManager({ initial }: { initial: SocialLink[] }) {
     setSaving(false)
     if (r.ok) {
       setEditing(null)
-      router.refresh()
+      window.location.reload()
     } else setError(r.error || 'No se pudo guardar')
   }
 

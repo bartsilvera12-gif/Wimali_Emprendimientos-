@@ -22,7 +22,6 @@ export function BusinessForm({ business }: { business: BusinessSettings | null }
     setSaving(false)
     if (r.ok) {
       setSaved(true)
-      router.refresh()
       setTimeout(() => setSaved(false), 2500)
     } else setError(r.error || 'No se pudo guardar')
   }

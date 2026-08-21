@@ -30,7 +30,7 @@ export function MediaManager({ initial }: { initial: MediaAsset[] }) {
         const r = await registerMedia(fd)
         if (!r.ok) throw new Error(r.error)
       }
-      router.refresh()
+      window.location.reload()
     } catch (e) {
       setError('Error: ' + (e as Error).message)
     } finally {

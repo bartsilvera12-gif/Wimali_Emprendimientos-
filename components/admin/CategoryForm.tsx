@@ -48,8 +48,7 @@ export function CategoryForm({ category }: { category?: Category }) {
     fd.set('image_path', img?.path ?? '')
     const r = await saveCategory(fd)
     if (r.ok) {
-      router.push('/admin/categorias')
-      router.refresh()
+      window.location.href = '/admin/categorias'
     } else {
       setError(r.error || 'No se pudo guardar')
       setSaving(false)

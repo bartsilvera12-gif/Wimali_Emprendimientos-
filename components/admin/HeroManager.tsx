@@ -28,7 +28,7 @@ export function HeroManager({ items, options }: { items: HeroItem[]; options: Op
     setPending('')
     if (r.ok) {
       setSel('')
-      router.refresh()
+      window.location.reload()
     } else alert(r.error || 'No se pudo agregar')
   }
 
@@ -36,7 +36,7 @@ export function HeroManager({ items, options }: { items: HeroItem[]; options: Op
     setPending(id)
     const r = await removeHeroProduct(id)
     setPending('')
-    if (r.ok) router.refresh()
+    if (r.ok) window.location.reload()
     else alert(r.error || 'No se pudo quitar')
   }
 

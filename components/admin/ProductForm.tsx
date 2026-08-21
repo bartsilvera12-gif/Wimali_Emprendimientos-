@@ -71,8 +71,7 @@ export function ProductForm({ product, images = [], categories }: Props) {
     fd.set('new_images', JSON.stringify(uploads))
     const r = await saveProduct(fd)
     if (r.ok) {
-      router.push('/admin/productos')
-      router.refresh()
+      window.location.href = '/admin/productos'
     } else {
       setError(r.error || 'No se pudo guardar')
       setSaving(false)
